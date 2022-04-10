@@ -1,0 +1,412 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/cores/esp8266"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/variants/nodemcu"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "ArduinoJson.h",
+    "Includepath": "/Users/zhangbo/Documents/Arduino/libraries/ArduinoJson/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "TimeLib.h",
+    "Includepath": "/Users/zhangbo/Documents/Arduino/libraries/Time-Library"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "ESP8266WiFi.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "ESP8266HTTPClient.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266HTTPClient/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "ESP8266WebServer.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WebServer/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "ESP8266mDNS.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266mDNS/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "TFT_eSPI.h",
+    "Includepath": "/Users/zhangbo/Documents/Arduino/libraries/TFT_eSPI"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "SPI.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/SPI"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "TJpg_Decoder.h",
+    "Includepath": "/Users/zhangbo/Documents/Arduino/libraries/TJpg_Decoder/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "SD.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/SD/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "SDFS.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/SDFS/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "SdFat.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "EEPROM.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/EEPROM"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "WiFiManager.h",
+    "Includepath": "/Users/zhangbo/Documents/Arduino/libraries/WiFiManager"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "DNSServer.h",
+    "Includepath": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/DNSServer/src"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "DHT.h",
+    "Includepath": "/Users/zhangbo/Documents/Arduino/libraries/DHT_sensor_library"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/SmallDesktopDisplay.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/number.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/AirmoleProject/sd2-display-clock/SmallDesktopDisplay/build/sketch/weathernum.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/Time-Library/DateStrings.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/Time-Library/Time.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/BearSSLHelpers.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/CertStoreBearSSL.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/ESP8266WiFi.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/ESP8266WiFiAP.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/ESP8266WiFiGeneric.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/ESP8266WiFiGratuitous.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/ESP8266WiFiMulti.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/ESP8266WiFiSTA-WPS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/ESP8266WiFiSTA.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/ESP8266WiFiScan.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/WiFiClient.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/WiFiClientSecureAxTLS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/WiFiClientSecureBearSSL.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/WiFiServer.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/WiFiServerSecureAxTLS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/WiFiServerSecureBearSSL.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WiFi/src/WiFiUdp.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266HTTPClient/src/ESP8266HTTPClient.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266WebServer/src/detail/mimetable.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266mDNS/src/ESP8266mDNS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266mDNS/src/ESP8266mDNS_Legacy.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266mDNS/src/LEAmDNS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266mDNS/src/LEAmDNS_Control.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266mDNS/src/LEAmDNS_Helpers.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266mDNS/src/LEAmDNS_Structs.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266mDNS/src/LEAmDNS_Transfer.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/TFT_eSPI/TFT_eSPI.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/SPI/SPI.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/TJpg_Decoder/src/TJpg_Decoder.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/TJpg_Decoder/src/tjpgd.c",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/SD/src/SD.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/SDFS/src/SDFS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/FatFile.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/FatFileLFN.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/FatFilePrint.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/FatFileSFN.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/FatVolume.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/FmtNumber.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/StdioStream.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/fstream.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/istream.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/FatLib/ostream.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/MinimumSerial.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/SdCard/SdSpiCard.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/SdCard/SdSpiCardEX.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/SdCard/SdioCardEX.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/SdCard/SdioTeensy.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/SpiDriver/SdSpiESP8266.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/SpiDriver/SdSpiParticle.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/SpiDriver/SdSpiSAM3X.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/SpiDriver/SdSpiSTM32.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/ESP8266SdFat/src/SpiDriver/SdSpiTeensy3.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/EEPROM/EEPROM.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/WiFiManager/WiFiManager.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Library/Arduino15/packages/esp8266/hardware/esp8266/2.7.4/libraries/DNSServer/src/DNSServer.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/DHT_sensor_library/DHT.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/DHT_sensor_library/DHT_U.cpp",
+    "Include": "Adafruit_Sensor.h",
+    "Includepath": "/Users/zhangbo/Documents/Arduino/libraries/Adafruit_Unified_Sensor"
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/DHT_sensor_library/DHT_U.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/Users/zhangbo/Documents/Arduino/libraries/Adafruit_Unified_Sensor/Adafruit_Sensor.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]

@@ -44,7 +44,6 @@
 #include <SPI.h>
 #include <TJpg_Decoder.h>
 #include <EEPROM.h>
-#include "qr.h"
 #include "number.h"
 #include "weathernum.h"
 
@@ -65,6 +64,7 @@
 //设置太空人图片是否使用
 #define imgAst_EN 1
 
+#define showDanmu 1 // 显示弹幕界面
 
 
 #if WM_EN
@@ -128,8 +128,10 @@ config_type wificonf ={{""},{""}};
 
 int updateweater_time = 10; //天气更新时间  X 分钟
 int LCD_Rotation = 0;   //LCD屏幕方向
+int Current_UI = 0;   //默认主界面 天气
 int LCD_BL_PWM = 50;//屏幕亮度0-100，默认50
-String cityCode = "101250101";  //天气城市代码 长沙:101250101株洲:101250301衡阳:101250401
+String cityCode = "101280109";  //天气城市代码
+String biliCode = "373782549";  //天气城市代码
 //----------------------------------------------------
 
 //LCD屏幕相关设置
@@ -141,6 +143,7 @@ uint16_t bgColor = 0x0000;
 //其余状态标志位
 uint8_t Wifi_en = 1; //wifi状态标志位  1：打开    0：关闭
 uint8_t UpdateWeater_en = 0; //更新时间标志位
+uint8_t UpdateDanmu_en = 0; //更新弹幕标志位
 int prevTime = 0;       //滚动显示更新标志位
 int DHT_img_flag = 0;   //DHT传感器使用标志位
 
@@ -152,9 +155,11 @@ int DHT_addr = 3;//3 DHT使能标志位
 int UpWeT_addr = 4; //4 更新时间记录
 int CC_addr = 10;//被写入数据的EEPROM地址编号  10城市
 int wifi_addr = 30; //被写入数据的EEPROM地址编号  20wifi-ssid-psw
+int current_ui = 40; // 当前界面
 
 time_t prevDisplay = 0;       //显示时间显示记录
 unsigned long weaterTime = 0; //天气更新时间记录
+unsigned long danmuTime = 0;  //弹幕更新时间记录
 String SMOD = "";//串口数据存储
 
 
@@ -187,7 +192,7 @@ float duty=0;
 
 //函数声明
 time_t getNtpTime();
-void digitalClockDisplay(int reflash_en);
+void digitalClockDisplay(int reflash_en, int yXis);
 void printDigits(int digits);
 String num2str(int digits);
 void sendNTPpacket(IPAddress &address);
@@ -378,31 +383,6 @@ void IndoorTem()
 }
 #endif
 
-#if !WM_EN
-//微信配网函数
-void SmartConfig(void)
-{
-  WiFi.mode(WIFI_STA);    //设置STA模式
-  //tft.pushImage(0, 0, 240, 240, qr);
-  tft.pushImage(0, 0, 240, 240, qr);
-  Serial.println("\r\nWait for Smartconfig...");    //打印log信息
-  WiFi.beginSmartConfig();      //开始SmartConfig，等待手机端发出用户名和密码
-  while (1)
-  {
-    Serial.print(".");
-    delay(100);                   // wait for a second
-    if (WiFi.smartConfigDone())//配网成功，接收到SSID和密码
-    {
-    Serial.println("SmartConfig Success");
-    Serial.printf("SSID:%s\r\n", WiFi.SSID().c_str());
-    Serial.printf("PSW:%s\r\n", WiFi.psk().c_str());
-    break;
-    }
-  }
-  loadNum = 194;
-}
-#endif
-
 
 //串口调试设置函数
 void Serial_set()
@@ -439,7 +419,7 @@ void Serial_set()
     {
       int CityCODE = 0;
       int CityC = atoi(incomingByte.c_str());//int n = atoi(xxx.c_str());//String转int
-      if(CityC>=101000000 && CityC<=102000000 || CityC == 0)
+      if((CityC>=101000000 && CityC<=102000000) || CityC == 0)
       {
         saveCityCodetoEEP(&CityC);
         // for(int cnum=0;cnum<5;cnum++)
@@ -459,13 +439,11 @@ void Serial_set()
         
         cityCode = CityCODE;
         
-        if(cityCode == "0")
+        if(cityCode == "0" || cityCode == 0)
         {
           Serial.println("城市代码调整为：自动");
           getCityCode();  //获取城市代码
-        }
-        else
-        {
+        } else {
           Serial.printf("城市代码调整为：");
           Serial.println(cityCode);
         }
@@ -516,7 +494,35 @@ void Serial_set()
       }
       else
         Serial.println("更新时间太长，请重新设置（1-60）");
-    } 
+    }
+    if(SMOD=="0x05")//设置5 显示主界面
+    {
+      int uiSet = atoi(incomingByte.c_str());
+      if(uiSet == 0 || uiSet == 1)
+      {
+        EEPROM.write(current_ui, uiSet);//主界面值写入ERPROM
+        EEPROM.commit();//保存更改的数据
+        SMOD = "";
+        //设置屏幕主界面后重新刷屏并显示
+        Current_UI = uiSet;
+        tft.fillScreen(0x0000);
+        if(Current_UI == 0) {
+          LCD_reflash(1);
+          TJpgDec.drawJpg(15,183,temperature, sizeof(temperature));  //温度图标
+          TJpgDec.drawJpg(15,213,humidity, sizeof(humidity));  //湿度图标
+          UpdateWeater_en = 1;
+        } else {
+          Bili_reflash(1);
+        }
+
+        Serial.print("屏幕主界面设置为：");
+        Serial.println(uiSet);
+      }
+      else 
+      {
+        Serial.println("屏幕主界面设置值错误，请输入0或1的值，0为天气界面，1为生日弹幕界面");
+      }
+    }
     else
     {
       SMOD = incomingByte;
@@ -542,6 +548,12 @@ void Serial_set()
       }
       else if(SMOD=="0x05")
       {
+        Serial.print("当前屏幕主界面："); 
+        Serial.print(Current_UI);
+        Serial.println("请输入要修改的屏幕主界面（0-天气，1-生日弹幕）"); 
+      }
+      else if(SMOD=="0x06")
+      {
         Serial.println("重置WiFi设置中......");
         delay(10);
         wm.resetSettings();
@@ -559,7 +571,8 @@ void Serial_set()
         Serial.println("地址设置输入        0x02");
         Serial.println("屏幕方向设置输入    0x03");
         Serial.println("更改天气更新时间    0x04");
-        Serial.println("重置WiFi(会重启)    0x05");
+        Serial.println("切换屏幕主界面      0x05");
+        Serial.println("重置WiFi(会重启)    0x06");
         Serial.println("");
       }
     }
@@ -572,17 +585,18 @@ void Serial_set()
 void handleconfig()
 {
   String msg;
-  int web_cc,web_setro,web_lcdbl,web_upt,web_dhten;
+  int web_cc,web_setro,web_lcdbl,web_upt,web_dhten,web_mainui;
 
   if (server.hasArg("web_ccode") || server.hasArg("web_bl") || \
-      server.hasArg("web_upwe_t") || server.hasArg("web_DHT11_en") || server.hasArg("web_set_rotation")) 
+      server.hasArg("web_upwe_t") || server.hasArg("web_DHT11_en") || server.hasArg("web_set_rotation") || \
+      server.hasArg("web_set_mainui")) 
   {
     web_cc    = server.arg("web_ccode").toInt();
     web_setro = server.arg("web_set_rotation").toInt();
     web_lcdbl = server.arg("web_bl").toInt();
     web_upt   = server.arg("web_upwe_t").toInt();
     web_dhten = server.arg("web_DHT11_en").toInt();
-    Serial.println("");
+    web_mainui = server.arg("web_set_mainui").toInt();
     if(web_cc>=101000000 && web_cc<=102000000) 
     {
       saveCityCodetoEEP(&web_cc);
@@ -630,10 +644,12 @@ void handleconfig()
 
     
     EEPROM.write(Ro_addr, web_setro);
+    EEPROM.write(current_ui, web_mainui);
     EEPROM.commit();//保存更改的数据
     delay(5);
-    if(web_setro != LCD_Rotation)
+    if(web_setro != LCD_Rotation || web_mainui != Current_UI)
     {
+      Current_UI = web_mainui;
       LCD_Rotation = web_setro;
       tft.setRotation(LCD_Rotation);
       tft.fillScreen(0x0000);
@@ -661,6 +677,9 @@ void handleconfig()
                     <input type='radio' name='web_set_rotation' value='1'> USB Right<br>\
                     <input type='radio' name='web_set_rotation' value='2'> USB Up<br>\
                     <input type='radio' name='web_set_rotation' value='3'> USB Left<br>";
+        content += "<br>Main UI<br>\
+                    <input type='radio' name='web_set_mainui' value='0' checked>Weather<br>\
+                    <input type='radio' name='web_set_mainui' value='1'>Birthday<br>";
         content += "<br><div><input type='submit' name='Save' value='Save'></form></div>" + msg + "<br>";
         content += "By WCY<br>";
         content += "</body></html>";
@@ -689,7 +708,7 @@ void Web_Sever_Init()
   uint32_t counttime = 0;//记录创建mDNS的时间
   Serial.println("mDNS responder building...");
   counttime = millis();
-  while (!MDNS.begin("SD3"))
+  while (!MDNS.begin("YILI"))
   {
     if(millis() - counttime > 30000) ESP.restart();//判断超过30秒钟就重启设备
   }
@@ -706,7 +725,7 @@ void Web_Sever_Init()
   server.begin();
   Serial.println("HTTP服务器已开启");
 
-  Serial.println("连接: http://sd3.local");
+  Serial.println("连接: http://yili.love");
   Serial.print("本地IP： ");
   Serial.println(WiFi.localIP());
   //将服务器添加到mDNS
@@ -734,7 +753,7 @@ void Web_sever_Win()
   clk.drawString("Connect to Config:",70,10,2);
   // clk.drawString("IP:",45,60,2);
   clk.setTextColor(TFT_WHITE, 0x0000); 
-  clk.drawString("http://sd3.local",100,40,4);
+  clk.drawString("http://yili.love",100,40,4);
   // clk.drawString(&IP_adr,125,70,2);
   clk.pushSprite(20,40);  //窗口位置
     
@@ -756,7 +775,7 @@ void Web_win()
   clk.drawString("WiFi Connect Fail!",100,10,2);
   clk.drawString("SSID:",45,40,2);
   clk.setTextColor(TFT_WHITE, 0x0000); 
-  clk.drawString("AutoConnectAP",125,40,2);
+  clk.drawString("YiliTvClock",125,40,2);
   clk.pushSprite(20,50);  //窗口位置
     
   clk.deleteSprite();
@@ -788,6 +807,12 @@ void Webconfig()
                               <input type='radio' name='set_rotation' value='2'> Three<br>\
                               <input type='radio' name='set_rotation' value='3'> Four<br>";
   WiFiManagerParameter  custom_rot(set_rotation); // custom html input
+
+  const char* set_mainui = "<br/><label for='set_mainui'>main UI</label>\
+                              <input type='radio' name='set_mainui' value='0' checked> weather<br>\
+                              <input type='radio' name='set_mainui' value='1'> birthday<br>";
+  WiFiManagerParameter  custom_mainui(set_mainui);
+
   WiFiManagerParameter  custom_bl("LCDBL","LCD BackLight(1-100)","10",3);
   #if DHT_EN
   WiFiManagerParameter  custom_DHT11_en("DHT11_en","Enable DHT11 sensor","0",1);
@@ -806,17 +831,13 @@ void Webconfig()
   wm.addParameter(&custom_weatertime);
   wm.addParameter(&p_lineBreak_notext);
   wm.addParameter(&custom_rot);
+  wm.addParameter(&custom_mainui);
   #if DHT_EN
   wm.addParameter(&p_lineBreak_notext);
   wm.addParameter(&custom_DHT11_en);
   #endif
   wm.setSaveParamsCallback(saveParamCallback);
   
-  // custom menu via array or vector
-  // 
-  // menu tokens, "wifi","wifinoscan","info","param","close","sep","erase","restart","exit" (sep is seperator) (if param is in menu, params will not show up in wifi page!)
-  // const char* menu[] = {"wifi","info","param","sep","restart","exit"}; 
-  // wm.setMenu(menu,6);
   std::vector<const char *> menu = {"wifi","restart"};
   wm.setMenu(menu);
   
@@ -843,7 +864,7 @@ void Webconfig()
 
   bool res;
   // res = wm.autoConnect(); // auto generated AP name from chipid
-   res = wm.autoConnect("AutoConnectAP"); // anonymous ap
+   res = wm.autoConnect("YiliTvClock"); // anonymous ap
   //  res = wm.autoConnect("AutoConnectAP","password"); // password protected ap
   
   while(!res);
@@ -876,6 +897,7 @@ void saveParamCallback(){
   updateweater_time = getParam("WeaterUpdateTime").toInt();
   cc =  getParam("CityCode").toInt();
   LCD_Rotation = getParam("set_rotation").toInt();
+  Current_UI = getParam("set_mainui").toInt();
   LCD_BL_PWM = getParam("LCDBL").toInt();
 
   //对获取的数据进行处理
@@ -911,6 +933,15 @@ void saveParamCallback(){
     delay(5);
   }
   tft.setRotation(LCD_Rotation);
+  // 主界面
+  Serial.print("MainUI = ");
+  Serial.println(Current_UI);
+  if(EEPROM.read(current_ui) != Current_UI)
+  {
+    EEPROM.write(current_ui, Current_UI);
+    EEPROM.commit();
+    delay(5);
+  }
   tft.fillScreen(0x0000);
   Web_win();
   loadNum--;
@@ -967,8 +998,6 @@ void setup()
   //从eeprom读取天气更新时间
   updateweater_time = EEPROM.read(UpWeT_addr);
   
-  
-
   tft.begin(); /* TFT init */
   tft.invertDisplay(1);//反转所有显示颜色：1反转，0正常
   tft.setRotation(LCD_Rotation);
@@ -996,11 +1025,6 @@ void setup()
       Web_win();
       Webconfig();
       #endif
-
-      #if !WM_EN
-      SmartConfig();
-      #endif   
-      break;
     }
   }
   delay(10); 
@@ -1055,11 +1079,15 @@ void setup()
     getCityCode();  //获取城市代码
    
   tft.fillScreen(TFT_BLACK);//清屏
-  
-  TJpgDec.drawJpg(15,183,temperature, sizeof(temperature));  //温度图标
-  TJpgDec.drawJpg(15,213,humidity, sizeof(humidity));  //湿度图标
 
-  getCityWeater();
+  if(Current_UI == 1 || getUiFromWeb() == 1) {
+    getBiliInfo();
+  } else {
+    TJpgDec.drawJpg(15,183,temperature, sizeof(temperature));  //温度图标
+    TJpgDec.drawJpg(15,213,humidity, sizeof(humidity));  //湿度图标
+    getCityWeater();
+  }
+
 #if DHT_EN
   if(DHT_img_flag != 0)
   IndoorTem();
@@ -1071,15 +1099,66 @@ void setup()
 #endif
 }
 
-
-
 void loop()
 {
   #if WebSever_EN
   Web_Sever();
   #endif
-  LCD_reflash(0);
+  int webUI = getUiFromWeb();
+  if(Current_UI == 1 || webUI == 1) {
+    if (Current_UI != webUI) {
+      EEPROM.write(current_ui, webUI);//主界面值写入ERPROM
+      EEPROM.commit();//保存更改的数据
+      //设置屏幕主界面后重新刷屏并显示
+      Current_UI = webUI;
+      tft.fillScreen(0x0000);
+      if(webUI == 0) {
+          LCD_reflash(1);
+          TJpgDec.drawJpg(15,183,temperature, sizeof(temperature));  //温度图标
+          TJpgDec.drawJpg(15,213,humidity, sizeof(humidity));  //湿度图标
+          UpdateWeater_en = 1;
+        } else {
+          Bili_reflash(1);
+        }
+    }
+    Bili_reflash(0);
+  } else {
+    LCD_reflash(0);
+  }
   Serial_set();
+}
+
+void Bili_reflash(int en)
+{
+  if (now() != prevDisplay || en == 1) 
+  {
+    prevDisplay = now();
+    digitalClockDisplay(en, 30);
+    prevTime=0;  
+  }
+  if(millis() - danmuTime > (1000 * 5) || en == 1 || UpdateDanmu_en != 0){ //3秒钟更新一次弹幕
+    if(Wifi_en == 0)
+    {
+      WiFi.forceSleepWake();//wifi on
+      Serial.println("WIFI恢复......");
+      Wifi_en = 1;
+    }
+
+    if(WiFi.status() == WL_CONNECTED)
+    {
+      // Serial.println("WIFI已连接");
+      getBiliInfo();
+      if(UpdateDanmu_en != 0) UpdateDanmu_en = 0;
+      danmuTime = millis();
+      // while(!getNtpTime());
+      getNtpTime();
+      #if !WebSever_EN
+      WiFi.forceSleepBegin(); // Wifi Off
+      Serial.println("WIFI休眠......");
+      Wifi_en = 0;
+      #endif
+    }
+  }
 }
 
 void LCD_reflash(int en)
@@ -1087,7 +1166,7 @@ void LCD_reflash(int en)
   if (now() != prevDisplay || en == 1) 
   {
     prevDisplay = now();
-    digitalClockDisplay(en);
+    digitalClockDisplay(en, 82);
     prevTime=0;  
   }
   
@@ -1176,7 +1255,6 @@ void getCityCode(){
 }
 
 
-
 // 获取城市天气
 void getCityWeater(){
  //String URL = "http://d1.weather.com.cn/dingzhi/" + cityCode + ".html?_="+String(now());//新
@@ -1226,6 +1304,124 @@ void getCityWeater(){
  
   //关闭ESP8266与服务器连接
   httpClient.end();
+}
+
+// 获取当前界面远程值
+int16_t getUiFromWeb(){
+ String URL = "http://api.airmole.cn/clock/ui.php";
+  //创建 HTTPClient 对象
+  HTTPClient httpClient;
+  
+  httpClient.begin(URL);
+  //启动连接并发送HTTP请求
+  int httpCode = httpClient.GET();
+  Serial.println("正在获取远程web UI 值");
+  Serial.println(URL);
+  
+  //如果服务器响应OK则从服务器获取响应体信息并通过串口输出
+  if (httpCode == HTTP_CODE_OK) {
+    String str = httpClient.getString();
+    int strInt = str.toInt();
+    Serial.println(str);
+    Serial.println("获取成功");
+    return strInt;
+  } else {
+    Serial.println("请求远程web UI 值错误：");
+    Serial.print(httpCode);
+    return 0;
+  }
+ 
+  //关闭ESP8266与服务器连接
+  httpClient.end();
+}
+
+// 获取直播间弹幕
+void getBiliInfo(){
+  // 粉丝数follower、friend关注数、current_level等级、archive_count投稿数、
+ String URL = "http://api.airmole.cn/clock/index.php?mid=" + biliCode; // 获取直播间弹幕
+  //创建 HTTPClient 对象
+  HTTPClient httpClient;
+  
+  httpClient.begin(URL);
+  //启动连接并发送HTTP请求
+  int httpCode = httpClient.GET();
+  Serial.println("正在获取b站信息");
+  Serial.println(URL);
+  
+  //如果服务器响应OK则从服务器获取响应体信息并通过串口输出
+  if (httpCode == HTTP_CODE_OK) {
+    String str = httpClient.getString();
+    // Serial.println(str);
+    biliData(&str);
+    Serial.println("获取成功");
+  } else {
+    Serial.println("请求直播间弹幕错误：");
+    Serial.print(httpCode);
+  }
+ 
+  //关闭ESP8266与服务器连接
+  httpClient.end();
+}
+
+//弹幕信息写到屏幕上
+void biliData(String *jsonStr)
+{
+  DynamicJsonDocument doc(1024);
+  deserializeJson(doc, *jsonStr);
+  JsonObject sk = doc.as<JsonObject>();
+
+  // 粉丝数、关注数
+  clk.setColorDepth(8);
+  clk.loadFont(ZdyLwFont_20);
+  String line1 = "level:"+ sk["level"].as<String>()+" video:"+sk["video"].as<String>();
+  clk.createSprite(230, 30);
+  clk.fillSprite(bgColor);
+  clk.setTextDatum(CC_DATUM);
+  clk.setTextColor(TFT_WHITE, bgColor);  
+  clk.drawString(line1,120,16);
+  clk.pushSprite(0,120);
+  clk.deleteSprite();
+  // current_level等级、archive_count投稿数、
+  String line2 = "fans:"+ sk["fans"].as<String>()+" follow:"+sk["friend"].as<String>();
+  clk.createSprite(230, 30);
+  clk.fillSprite(bgColor);
+  clk.setTextDatum(CC_DATUM);
+  clk.setTextColor(TFT_WHITE, bgColor);  
+  clk.drawString(line2,120,16);
+  clk.pushSprite(0,150);
+  clk.deleteSprite();
+  // 直播状态
+  String status = "no-living x";
+  if (sk["status"].as<String>() == "1") status = "living...";
+  clk.createSprite(100, 30);
+  clk.fillSprite(bgColor);
+  clk.setTextDatum(CC_DATUM);
+  if (sk["status"].as<String>() == "1") {
+    clk.setTextColor(TFT_GREEN, bgColor);
+  } else {
+    clk.setTextColor(TFT_WHITE, bgColor);
+  }
+  clk.drawString(status,50,16);
+  clk.pushSprite(0,180);
+  clk.deleteSprite();
+  // 观看次数
+  String watched = "watch:" + sk["watched"].as<String>();
+  clk.createSprite(170, 30);
+  clk.fillSprite(bgColor);
+  clk.setTextDatum(CC_DATUM);
+  clk.setTextColor(TFT_WHITE, bgColor);
+  clk.drawString(watched,50,16);
+  clk.pushSprite(110,180);
+  clk.deleteSprite();
+  // copyright
+  String footer = "Airmole - " + sk["year"].as<String>();
+  clk.createSprite(230, 30);
+  clk.fillSprite(bgColor);
+  clk.setTextDatum(CC_DATUM);
+  clk.setTextColor(TFT_WHITE, bgColor);
+  clk.drawString(footer,120,16);
+  clk.pushSprite(0,210);
+  clk.deleteSprite();
 }
 
 
@@ -1450,13 +1646,13 @@ void imgAnim()
 unsigned char Hour_sign   = 60;
 unsigned char Minute_sign = 60;
 unsigned char Second_sign = 60;
-void digitalClockDisplay(int reflash_en)
+void digitalClockDisplay(int reflash_en, int yXis)
 { 
-  int timey=82;
+  int timey=yXis;
   if(hour()!=Hour_sign || reflash_en == 1)//时钟刷新
   {
-    dig.printfW3660(20,timey,hour()/10);
-    dig.printfW3660(60,timey,hour()%10);
+    dig.printfW3660(15,timey,hour()/10);
+    dig.printfW3660(55,timey,hour()%10);
     Hour_sign = hour();
   }
   if(minute()!=Minute_sign  || reflash_en == 1)//分钟刷新
@@ -1476,25 +1672,27 @@ void digitalClockDisplay(int reflash_en)
   /***日期****/
   clk.setColorDepth(8);
   clk.loadFont(ZdyLwFont_20);
-   
-  //星期
-  clk.createSprite(58, 30);
-  clk.fillSprite(bgColor);
-  clk.setTextDatum(CC_DATUM);
-  clk.setTextColor(TFT_WHITE, bgColor);
-  clk.drawString(week(),29,16);
-  clk.pushSprite(102,150);
-  clk.deleteSprite();
-  
+
+  // 用户昵称 祝福语
+  if(Current_UI == 1) {
+    clk.createSprite(230, 30);
+    clk.fillSprite(bgColor);
+    clk.setTextDatum(CC_DATUM);
+    clk.setTextColor(TFT_YELLOW, bgColor);  
+    clk.drawString("伊利，HapppyBirthday",120,16);
+    clk.pushSprite(0,0);
+    clk.deleteSprite();
+  }
+
   //月日
-  clk.createSprite(95, 30);
+  clk.createSprite(170, 30);
   clk.fillSprite(bgColor);
   clk.setTextDatum(CC_DATUM);
   clk.setTextColor(TFT_WHITE, bgColor);  
-  clk.drawString(monthDay(),49,16);
-  clk.pushSprite(5,150);
+  clk.drawString(monthDay() + " " + week(),60,16);
+  clk.pushSprite(20, yXis+60);
   clk.deleteSprite();
-  
+
   clk.unloadFont();
   /***日期****/
 }
