@@ -819,7 +819,7 @@ void Webconfig()
   WiFiManagerParameter custom_DHT11_en("DHT11_en","Enable DHT11 sensor","0",1);
 
   WiFiManagerParameter custom_weatertime("WeaterUpdateTime","Weather Update Time(Min)","10",3);
-  WiFiManagerParameter custom_cc("CityCode","CityCode","101250101",9);
+  WiFiManagerParameter custom_cc("CityCode","CityCode","101280109",9);
   WiFiManagerParameter p_lineBreak_notext("<p></p>");
 
   // wm.addParameter(&p_lineBreak_notext);
